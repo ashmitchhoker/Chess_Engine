@@ -8,16 +8,16 @@
 
 std::pair<int, Move> search(Board& board, int depth, int alpha, int beta) {
     if (depth == 0) {
-        return { evaluate(board), Move(-1, -1) };
+        return { evaluate(board), Move() };
     }
 
     auto moves = generateMoves(board);
     if (moves.empty()) {
-        return { evaluate(board), Move(-1, -1) };
+        return { evaluate(board), Move() };
     }
 
-    Move bestMove(-1, -1);
-    int bestScore = INF;
+    Move bestMove;
+    int bestScore = -INF;
 
     for (auto& m : moves) {
         Piece captured = board.squares[m.to];

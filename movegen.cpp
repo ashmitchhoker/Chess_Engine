@@ -22,53 +22,53 @@ MoveList generateMoves(const Board &board) {
     MoveList moves;
 
     for (int sq = 0; sq < 64; sq++) {
-        int piece = board.squares[sq];
-        if (piece == EMPTY) continue;
+        Piece piece = board.squares[sq];
+        if (piece == Piece::EMPTY) continue;
 
-        bool isWhite = (piece >= WP && piece <= WK);
+        bool isWhite = (piece >= Piece::WP && piece <= Piece::WK);
         if (isWhite != board.whiteToMove) continue;
 
         switch (piece) {
-            case WP: {
-                if (sq + 8 < 64 && board.squares[sq+8] == EMPTY)
-                    moves.push_back({sq, sq+8, EMPTY});
+            case Piece::WP: {
+                if (sq + 8 < 64 && board.squares[sq+8] == Piece::EMPTY)
+                    moves.push_back({sq, sq+8, Piece::EMPTY});
                 // Double push from 2nd rank
-                if (sq / 8 == 1 && board.squares[sq+8] == EMPTY && board.squares[sq+16] == EMPTY)
-                    moves.push_back({sq, sq+16, EMPTY});
+                if (sq / 8 == 1 && board.squares[sq+8] == Piece::EMPTY && board.squares[sq+16] == Piece::EMPTY)
+                    moves.push_back({sq, sq+16, Piece::EMPTY});
                 // Captures
-                if (sq % 8 != 0 && sq+7 < 64 && board.squares[sq+7] >= BP)
+                if (sq % 8 != 0 && sq+7 < 64 && board.squares[sq+7] >= Piece::BP)
                     moves.push_back({sq, sq+7, board.squares[sq+7]});
-                if (sq % 8 != 7 && sq+9 < 64 && board.squares[sq+9] >= BP)
+                if (sq % 8 != 7 && sq+9 < 64 && board.squares[sq+9] >= Piece::BP)
                     moves.push_back({sq, sq+9, board.squares[sq+9]});
                 break;
             }
-            case BP: {
-                if (sq - 8 >= 0 && board.squares[sq-8] == EMPTY)
-                    moves.push_back({sq, sq-8, EMPTY});
+            case Piece::BP: {
+                if (sq - 8 >= 0 && board.squares[sq-8] == Piece::EMPTY)
+                    moves.push_back({sq, sq-8, Piece::EMPTY});
                 // Double push from 7th rank
-                if (sq / 8 == 6 && board.squares[sq-8] == EMPTY && board.squares[sq-16] == EMPTY)
-                    moves.push_back({sq, sq-16, EMPTY});
+                if (sq / 8 == 6 && board.squares[sq-8] == Piece::EMPTY && board.squares[sq-16] == Piece::EMPTY)
+                    moves.push_back({sq, sq-16, Piece::EMPTY});
                 // Captures
-                if (sq % 8 != 0 && sq-9 >= 0 && board.squares[sq-9] > 0 && board.squares[sq-9] <= WK)
+                if (sq % 8 != 0 && sq-9 >= 0 && board.squares[sq-9] > Piece::EMPTY && board.squares[sq-9] <= Piece::WK)
                     moves.push_back({sq, sq-9, board.squares[sq-9]});
-                if (sq % 8 != 7 && sq-7 >= 0 && board.squares[sq-7] > 0 && board.squares[sq-7] <= WK)
+                if (sq % 8 != 7 && sq-7 >= 0 && board.squares[sq-7] > Piece::EMPTY && board.squares[sq-7] <= Piece::WK)
                     moves.push_back({sq, sq-7, board.squares[sq-7]});
                 break;
             }
-            case WN: case BN: {
+            case Piece::WN: case Piece::BN: {
                 for (int m : knight_moves) {
                     int to = sq + m;
                     if (to < 0 || to >= 64) continue;
                     if ((m == 1 || m == -1 || m == 17 || m == -15) && !sameRow(sq, to)) continue;
                     if ((m == 15 || m == -17) && !sameRow(sq, to)) continue;
 
-                    int target = board.squares[to];
-                    if (target == EMPTY || (isWhite && target >= BP) || (!isWhite && target <= WK && target != EMPTY))
+                    Piece target = board.squares[to];
+                    if (target == Piece::EMPTY || (isWhite && target >= Piece::BP) || (!isWhite && target <= Piece::WK && target != Piece::EMPTY))
                         moves.push_back({sq, to, target});
                 }
                 break;
             }
-            case WB: case BB: {
+            case Piece::WB: case Piece::BB: {
                 for (int dir : bishop_dirs) {
                     int to = sq;
                     while (true) {
@@ -76,11 +76,11 @@ MoveList generateMoves(const Board &board) {
                         if (to < 0 || to >= 64) break;
                         // prevent wrap-around
                         if ((dir == 1 || dir == -1) && !sameRow(to, to - dir)) break;
-                        int target = board.squares[to];
-                        if (target == EMPTY) {
-                            moves.push_back({sq, to, EMPTY});
+                        Piece target = board.squares[to];
+                        if (target == Piece::EMPTY) {
+                            moves.push_back({sq, to, Piece::EMPTY});
                         } else {
-                            if ((isWhite && target >= BP) || (!isWhite && target <= WK && target != EMPTY))
+                            if ((isWhite && target >= Piece::BP) || (!isWhite && target <= Piece::WK && target != Piece::EMPTY))
                                 moves.push_back({sq, to, target});
                             break;
                         }
@@ -88,18 +88,18 @@ MoveList generateMoves(const Board &board) {
                 }
                 break;
             }
-            case WR: case BR: {
+            case Piece::WR: case Piece::BR: {
                 for (int dir : rook_dirs) {
                     int to = sq;
                     while (true) {
                         to += dir;
                         if (to < 0 || to >= 64) break;
                         if ((dir == 1 || dir == -1) && !sameRow(to, to - dir)) break;
-                        int target = board.squares[to];
-                        if (target == EMPTY) {
-                            moves.push_back({sq, to, EMPTY});
+                        Piece target = board.squares[to];
+                        if (target == Piece::EMPTY) {
+                            moves.push_back({sq, to, Piece::EMPTY});
                         } else {
-                            if ((isWhite && target >= BP) || (!isWhite && target <= WK && target != EMPTY))
+                            if ((isWhite && target >= Piece::BP) || (!isWhite && target <= Piece::WK && target != Piece::EMPTY))
                                 moves.push_back({sq, to, target});
                             break;
                         }
@@ -107,18 +107,18 @@ MoveList generateMoves(const Board &board) {
                 }
                 break;
             }
-            case WQ: case BQ: {
+            case Piece::WQ: case Piece::BQ: {
                 for (int dir : queen_dirs) {
                     int to = sq;
                     while (true) {
                         to += dir;
                         if (to < 0 || to >= 64) break;
                         if ((dir == 1 || dir == -1) && !sameRow(to, to - dir)) break;
-                        int target = board.squares[to];
-                        if (target == EMPTY) {
-                            moves.push_back({sq, to, EMPTY});
+                        Piece target = board.squares[to];
+                        if (target == Piece::EMPTY) {
+                            moves.push_back({sq, to, Piece::EMPTY});
                         } else {
-                            if ((isWhite && target >= BP) || (!isWhite && target <= WK && target != EMPTY))
+                            if ((isWhite && target >= Piece::BP) || (!isWhite && target <= Piece::WK && target != Piece::EMPTY))
                                 moves.push_back({sq, to, target});
                             break;
                         }
@@ -126,13 +126,13 @@ MoveList generateMoves(const Board &board) {
                 }
                 break;
             }
-            case WK: case BK: {
+            case Piece::WK: case Piece::BK: {
                 for (int m : king_moves) {
                     int to = sq + m;
                     if (to < 0 || to >= 64) continue;
                     if ((m == 1 || m == -1) && !sameRow(sq, to)) continue;
-                    int target = board.squares[to];
-                    if (target == EMPTY || (isWhite && target >= BP) || (!isWhite && target <= WK && target != EMPTY))
+                    Piece target = board.squares[to];
+                    if (target == Piece::EMPTY || (isWhite && target >= Piece::BP) || (!isWhite && target <= Piece::WK && target != Piece::EMPTY))
                         moves.push_back({sq, to, target});
                 }
                 break;

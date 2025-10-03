@@ -9,7 +9,7 @@ static int piece_values[13] = {
 int evaluate(const Board &board) {
     int score = 0;
     for (int sq = 0; sq < 64; sq++) {
-        score += piece_values[board.squares[sq]];
+        score += piece_values[static_cast<int>(board.squares[sq])];
     }
     return score;
 }

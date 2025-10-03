@@ -3,14 +3,14 @@
 Board::Board() {
     // initial chess position
     squares = {
-        WR, WN, WB, WQ, WK, WB, WN, WR,
-        WP, WP, WP, WP, WP, WP, WP, WP,
-        EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-        EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-        EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-        EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-        BP, BP, BP, BP, BP, BP, BP, BP,
-        BR, BN, BB, BQ, BK, BB, BN, BR
+        Piece::WR, Piece::WN, Piece::WB, Piece::WQ, Piece::WK, Piece::WB, Piece::WN, Piece::WR,
+        Piece::WP, Piece::WP, Piece::WP, Piece::WP, Piece::WP, Piece::WP, Piece::WP, Piece::WP,
+        Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY,
+        Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY,
+        Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY,
+        Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY, Piece::EMPTY,
+        Piece::BP, Piece::BP, Piece::BP, Piece::BP, Piece::BP, Piece::BP, Piece::BP, Piece::BP,
+        Piece::BR, Piece::BN, Piece::BB, Piece::BQ, Piece::BK, Piece::BB, Piece::BN, Piece::BR
     };
     whiteToMove = true; // white starts
 }
@@ -21,18 +21,18 @@ void printBoard(const Board& board) {
             Piece p = board.squares[r * 8 + c];
             char ch = '.';
             switch (p) {
-                case WP: ch = 'P'; break;
-                case WN: ch = 'N'; break;
-                case WB: ch = 'B'; break;
-                case WR: ch = 'R'; break;
-                case WQ: ch = 'Q'; break;
-                case WK: ch = 'K'; break;
-                case BP: ch = 'p'; break;
-                case BN: ch = 'n'; break;
-                case BB: ch = 'b'; break;
-                case BR: ch = 'r'; break;
-                case BQ: ch = 'q'; break;
-                case BK: ch = 'k'; break;
+                case Piece::WP: ch = 'P'; break;
+                case Piece::WN: ch = 'N'; break;
+                case Piece::WB: ch = 'B'; break;
+                case Piece::WR: ch = 'R'; break;
+                case Piece::WQ: ch = 'Q'; break;
+                case Piece::WK: ch = 'K'; break;
+                case Piece::BP: ch = 'p'; break;
+                case Piece::BN: ch = 'n'; break;
+                case Piece::BB: ch = 'b'; break;
+                case Piece::BR: ch = 'r'; break;
+                case Piece::BQ: ch = 'q'; break;
+                case Piece::BK: ch = 'k'; break;
                 default: break;
             }
             std::cout << ch << " ";
