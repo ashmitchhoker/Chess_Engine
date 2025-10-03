@@ -29,6 +29,8 @@ MoveList generateMoves(const Board &board) {
         if (isWhite != board.whiteToMove) continue;
 
         switch (piece) {
+            case Piece::EMPTY:
+                break;
             case Piece::WP: {
                 if (sq + 8 < 64 && board.squares[sq+8] == Piece::EMPTY)
                     moves.push_back({sq, sq+8, Piece::EMPTY});
