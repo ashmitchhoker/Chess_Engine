@@ -2,6 +2,15 @@
 #include "search.h"
 #include "movegen.h"
 #include <iostream>
+#include <string>
+
+std::string squareToAlgebraic(int square) {
+    int file = square % 8;
+    int rank = square / 8;
+    char fileChar = 'a' + file;
+    char rankChar = '1' + rank;
+    return std::string(1, fileChar) + std::string(1, rankChar);
+}
 
 int main() {
     Board board; // starts in initial position
@@ -18,7 +27,5 @@ int main() {
     // Now find best move for black
     auto [score, bestMove] = search(board, 3, -INF, INF);
 
-    std::cout << "Best move for Black: from " << bestMove.from
-              << " to " << bestMove.to
-              << " (score " << score << ")\n";
+    std::cout << "Black's best response: " << squareToAlgebraic(bestMove.to) << "\n";
 }
