@@ -16,7 +16,8 @@ Board::Board() {
 }
 
 void printBoard(const Board& board) {
-    for (int r = 0; r < 8; r++) {
+    for (int r = 7; r >= 0; r--) {
+        std::cout << (r + 1) << " ";
         for (int c = 0; c < 8; c++) {
             Piece p = board.squares[r * 8 + c];
             char ch = '.';
@@ -39,5 +40,5 @@ void printBoard(const Board& board) {
         }
         std::cout << "\n";
     }
-    std::cout << "\n";
+    std::cout << "  a b c d e f g h\n\n";
 }
